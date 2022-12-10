@@ -5,9 +5,9 @@
 package middlewares
 
 import (
-	"strings"
-	"github.com/gin-gonic/gin"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
+	"strings"
 	"time"
 )
 
@@ -83,7 +83,7 @@ func GenerateToken(key []byte, userId string, username string, roles []string) (
 	claims := make(jwt.MapClaims)
 	claims["user_id"] = userId
 	claims["username"] = username
-	claims["exp"]=time.Now().Add(time.Hour * 72).UnixNano() / int64(time.Millisecond)
+	claims["exp"] = time.Now().Add(time.Hour*72).UnixNano() / int64(time.Millisecond)
 
 	//Set user roles
 	claims["roles"] = roles
@@ -102,4 +102,3 @@ func ValidateToken(tokenString string, key string) (*jwt.Token, error) {
 
 	return token, err
 }
-

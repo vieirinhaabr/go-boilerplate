@@ -5,23 +5,22 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/VoidArtanis/go-rest-boilerplate/middlewares"
 	"github.com/VoidArtanis/go-rest-boilerplate/shared"
+	"github.com/gin-gonic/gin"
 )
 
 type AuthController struct{}
 
-
-func (this AuthController)HandleLogin(c *gin.Context) {
-	userId:="123"
-	username:="Beast"
-	roles:= []string{shared.RoleAdmin, shared.RoleProUser}
+func (this AuthController) HandleLogin(c *gin.Context) {
+	userId := "123"
+	username := "Beast"
+	roles := []string{shared.RoleAdmin, shared.RoleProUser}
 
 	// do user auth here
 
 	//issue token
-	token, err := middlewares.GenerateToken([]byte(middlewares.SigningKey), userId,username, roles)
+	token, err := middlewares.GenerateToken([]byte(middlewares.SigningKey), userId, username, roles)
 	if err != nil {
 
 	}
