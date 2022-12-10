@@ -15,10 +15,12 @@ func NewGinModule() *ginModule {
 
 func (handler *ginModule) Configure() {
 	engine := gin.Default()
-	services.InitRouter(engine)
+	router.SetRoutes(engine)
 	*handler = ginModule{engine}
 }
 
 func (handler *ginModule) Start() {
 	handler.engine.Run(":8080")
 }
+
+func (handler *ginModule) Finish() {}

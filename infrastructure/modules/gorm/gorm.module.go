@@ -1,8 +1,8 @@
-package gin
+package gorm
 
 import (
 	"github.com/jinzhu/gorm"
-	"go-boilerplate/infrastructure/modules/gorm/entities/user"
+	userRepo "go-boilerplate/infrastructure/modules/gorm/repos/user"
 )
 
 type gormModule struct {
@@ -25,7 +25,7 @@ func (handler *gormModule) Configure() {
 }
 
 func (handler *gormModule) Start() {
-	user.User{}.Setup(handler.db)
+	userRepo.Setup(handler.db)
 }
 
 func (handler *gormModule) Finish() {
