@@ -10,7 +10,7 @@ type props struct {
 
 var Connection props
 
-func SetupConnection(conn *gorm.DB) {
+func Setup(conn *gorm.DB) {
 	Connection = props{
 		conn,
 	}

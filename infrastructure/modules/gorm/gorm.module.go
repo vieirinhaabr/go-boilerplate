@@ -33,7 +33,7 @@ func (handler *gormModule) Configure() {
 }
 
 func (handler *gormModule) Start() {
-	transaction.SetupConnection(handler.conn)
+	transaction.Setup(handler.conn)
 
 	userRepo.Setup(handler.conn)
 }
