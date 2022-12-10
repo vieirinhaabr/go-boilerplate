@@ -1,12 +1,16 @@
 package gorm
 
 import (
-	"github.com/jinzhu/gorm"
-	userRepo "go-boilerplate/infrastructure/modules/gorm/repos/user"
+	"database/sql"
+	"go-boilerplate/infrastructure/modules/gorm/repos"
+	"go-boilerplate/infrastructure/modules/gorm/repos/user"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type gormModule struct {
-	db *gorm.DB
+	conn *gorm.DB
+	db   *sql.DB
 }
 
 func NewGormModule() *gormModule {
@@ -14,18 +18,24 @@ func NewGormModule() *gormModule {
 }
 
 func (handler *gormModule) Configure() {
-	db, err := gorm.Open("postgres", "host=myhost user=gorm dbname=gorm sslmode=disable password=mypassword")
+	dns := postgres.Open("host=localhost port=5432 dbname=boilerplate user=dbuser password=dbpass")
+	conn, err := gorm.Open(dns, &gorm.Config{})
 	if err != nil {
-		panic("Can't connect to DB")
+		panic(err)
 	}
 
-	db.LogMode(true)
+	db, err := conn.DB()
+	if err != nil {
+		panic(err)
+	}
 
-	*handler = gormModule{db}
+	*handler = gormModule{conn, db}
 }
 
 func (handler *gormModule) Start() {
-	userRepo.Setup(handler.db)
+	transaction.SetupConnection(handler.conn)
+
+	userRepo.Setup(handler.conn)
 }
 
 func (handler *gormModule) Finish() {

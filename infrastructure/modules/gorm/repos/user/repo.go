@@ -1,15 +1,15 @@
 package userRepo
 
 import (
-	"github.com/jinzhu/gorm"
 	"go-boilerplate/domain/user/entities"
+	"gorm.io/gorm"
 )
 
 var model *gorm.DB = nil
 
-func Setup(db *gorm.DB) {
-	db.CreateTable(Schema{})
-	model = db.Model(Schema{})
+func Setup(conn *gorm.DB) {
+	conn.AutoMigrate(&Schema{})
+	model = conn.Table(Schema{}.TableName(), Schema{})
 }
 
 func (Schema) Create(user user.Entity) error {
@@ -18,6 +18,6 @@ func (Schema) Create(user user.Entity) error {
 }
 
 func (Schema) Update(user user.Entity) error {
-	result := model.Update(&user)
+	result := model.Save(&user)
 	return result.Error
 }

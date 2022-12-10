@@ -15,9 +15,9 @@ func (Schema) TableName() string {
 }
 
 type Schema struct {
-	ID        string    `gorm:"column:id;primary_key"`
-	Email     string    `gorm:"column:email"`
-	Name      string    `gorm:"column:name"`
-	CreatedAt time.Time `gorm:"column:created_at"`
-	UpdatedAt time.Time `gorm:"column:updated_at"`
+	ID        string    `gorm:"column:id;primaryKey"`
+	Email     string    `gorm:"column:email;not null"`
+	Name      string    `gorm:"column:name;not null"`
+	CreatedAt time.Time `gorm:"column:created_at;not null"`
+	UpdatedAt time.Time `gorm:"column:updated_at;not null"`
 }
