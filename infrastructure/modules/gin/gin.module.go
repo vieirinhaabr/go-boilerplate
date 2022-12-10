@@ -13,14 +13,12 @@ func NewGinModule() *ginModule {
 	return &ginModule{}
 }
 
-func (handler *ginModule) configure(res chan any) {
+func (handler *ginModule) Configure() {
 	engine := gin.Default()
 	services.InitRouter(engine)
 	*handler = ginModule{engine}
-	res <- handler
 }
 
-func (handler *ginModule) start(res chan any) {
+func (handler *ginModule) Start() {
 	handler.engine.Run(":8080")
-	res <- handler
 }
