@@ -1,9 +1,8 @@
-module go.rest.boilerplate
+module go-boilerplate
 
 go 1.19
 
 require (
-	github.com/VoidArtanis/go-rest-boilerplate v0.0.0-20171106114442-315cdd5f775f
 	github.com/gin-gonic/gin v1.8.1
 )
 
