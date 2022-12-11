@@ -17,8 +17,6 @@ func AuthHandler(authRoles ...string) gin.HandlerFunc {
 			return
 		}
 
-		c.Set("userId", maps.UserId)
-		c.Set("username", maps.Username)
 		c.Next()
 	}
 }

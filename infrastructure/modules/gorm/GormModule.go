@@ -33,9 +33,9 @@ func (handler *gormModule) Configure() {
 }
 
 func (handler *gormModule) Start() {
-	transaction.Setup(handler.conn)
+	repo.Transaction.Setup(handler.conn)
 
-	userRepo.Setup(handler.conn)
+	userRepo.Repo.Setup(handler.conn)
 }
 
 func (handler *gormModule) Finish() {
