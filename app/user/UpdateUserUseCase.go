@@ -8,9 +8,20 @@ import (
 	"go-boilerplate/infrastructure/modules/gorm/repos/user"
 )
 
-func CreateUserUseCase(params *userApi.CreateUserParams) *api.UseCaseResponse[userEntity.User] {
-	user := userEntity.Create(params.Email, params.Name)
-	err := userRepo.Repo.Create(&user)
+func UpdateUserUseCase(params *userApi.UpdateUserParams) *api.UseCaseResponse[userEntity.User] {
+	user, err := userRepo.Repo.GetById(params.ID)
+	if err != nil {
+		code := errors.Internal
+		msg := "Error when getting user"
+		return &api.UseCaseResponse[userEntity.User]{
+			Response:  nil,
+			ErrorCode: &code,
+			ErrorMsg:  &msg,
+		}
+	}
+
+	user.Update(params.Email, params.Name)
+	err = userRepo.Repo.Update(&user)
 	if err != nil {
 		code := errors.Internal
 		msg := "Error when saving user"

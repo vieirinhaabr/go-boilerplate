@@ -19,7 +19,7 @@ func Create(Email string, Name string) User {
 	}
 }
 
-func (e User) Update(Email string, Name string) {
+func (e *User) Update(Email string, Name string) {
 	e.Email = Email
 	e.Name = Name
 	e.UpdatedAt = time.Now()

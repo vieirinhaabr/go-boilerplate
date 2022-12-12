@@ -19,7 +19,7 @@ func (Schema) TableName() string {
 }
 
 type Schema struct {
-	ID        uuid.UUID `gorm:"column:id;type:uuid;default:gen_random_uuid();primaryKey"`
+	ID        uuid.UUID `gorm:"<-:create;column:id;type:uuid;default:gen_random_uuid();primaryKey"`
 	Email     string    `gorm:"column:email;type:varchar;not null"`
 	Name      string    `gorm:"column:name;type:varchar;not null"`
 	CreatedAt time.Time `gorm:"column:created_at;type:timestamp;not null"`
