@@ -1,14 +1,17 @@
 package main
 
 import (
+	"go-boilerplate/config/environment"
 	"go-boilerplate/infrastructure/global/types"
-	"go-boilerplate/infrastructure/modules/gin"
-	"go-boilerplate/infrastructure/modules/gorm"
+	ginModule "go-boilerplate/infrastructure/modules/gin"
+	gormModule "go-boilerplate/infrastructure/modules/gorm"
 )
 
 func main() {
-	var gorm types.Module = gorm.NewGormModule()
-	var gin types.Module = gin.NewGinModule()
+	environment.SetupVars()
+
+	var gorm types.Module = gormModule.NewGormModule()
+	var gin types.Module = ginModule.NewGinModule()
 
 	gorm.Configure()
 	gin.Configure()

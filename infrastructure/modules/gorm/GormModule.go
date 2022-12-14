@@ -2,24 +2,33 @@ package gorm
 
 import (
 	"database/sql"
+	"go-boilerplate/config/environment"
 	"go-boilerplate/infrastructure/modules/gorm/repos"
 	"go-boilerplate/infrastructure/modules/gorm/repos/user"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type gormModule struct {
+type Module struct {
 	conn *gorm.DB
 	db   *sql.DB
 }
 
-func NewGormModule() *gormModule {
-	return &gormModule{}
+func NewGormModule() *Module {
+	return &Module{}
 }
 
-func (handler *gormModule) Configure() {
-	dns := postgres.Open("host=localhost port=5432 dbname=boilerplate user=dbuser password=dbpass")
-	conn, err := gorm.Open(dns, &gorm.Config{})
+func (handler *Module) Configure() {
+	var config = environment.Vars.Gorm
+
+	var dsn = "host=" + config.Host +
+		" port=" + config.Port +
+		" dbname=" + config.DBName +
+		" user=" + config.User +
+		" password=" + config.Pass
+	dialect := postgres.Open(dsn)
+
+	conn, err := gorm.Open(dialect, &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
@@ -29,15 +38,15 @@ func (handler *gormModule) Configure() {
 		panic(err)
 	}
 
-	*handler = gormModule{conn, db}
+	*handler = Module{conn, db}
 }
 
-func (handler *gormModule) Start() {
+func (handler *Module) Start() {
 	repo.Transaction.Setup(handler.conn)
 
 	userRepo.Repo.Setup(handler.conn)
 }
 
-func (handler *gormModule) Finish() {
+func (handler *Module) Finish() {
 	handler.db.Close()
 }
