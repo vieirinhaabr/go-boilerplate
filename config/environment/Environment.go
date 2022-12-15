@@ -17,7 +17,9 @@ func loadVar(name string, required bool) string {
 }
 
 func SetupVars() {
-	_ = godotenv.Load()
+	if len(os.Getenv("APP_ENV")) == 0 {
+		_ = godotenv.Load()
+	}
 
 	Vars.Gin.Port = loadVar("GIN_PORT", true)
 
@@ -26,4 +28,7 @@ func SetupVars() {
 	Vars.Gorm.DBName = loadVar("GORM_DBNAME", true)
 	Vars.Gorm.User = loadVar("GORM_USER", true)
 	Vars.Gorm.Pass = loadVar("GORM_PASS", true)
+
+	Vars.Mongo.Uri = loadVar("MONGO_URI", true)
+	Vars.Mongo.DBName = loadVar("MONGO_DB", true)
 }

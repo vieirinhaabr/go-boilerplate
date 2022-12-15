@@ -1,4 +1,4 @@
-package userRepo
+package gormUserRepo
 
 import (
 	"go-boilerplate/domain/user/entities"
@@ -12,7 +12,10 @@ type repo struct {
 var Repo repo
 
 func (r repo) Setup(conn *gorm.DB) {
-	conn.AutoMigrate(&Schema{})
+	err := conn.AutoMigrate(&Schema{})
+	if err != nil {
+		panic(err)
+	}
 	Repo = repo{
 		model: conn,
 	}

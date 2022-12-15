@@ -1,4 +1,4 @@
-package userRepo
+package gormUserRepo
 
 import (
 	"github.com/gofrs/uuid"
@@ -9,8 +9,8 @@ import (
 
 type IRepo interface {
 	Setup(conn *gorm.DB)
-	Create(userEntity.User) error
-	Update(userEntity.User) error
+	Create(*userEntity.User) error
+	Update(*userEntity.User) error
 	GetById(id string) (userEntity.User, error)
 }
 

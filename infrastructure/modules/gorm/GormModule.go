@@ -1,4 +1,4 @@
-package gorm
+package gormModule
 
 import (
 	"database/sql"
@@ -42,11 +42,11 @@ func (handler *Module) Configure() {
 }
 
 func (handler *Module) Start() {
-	repo.Transaction.Setup(handler.conn)
+	gormRepo.Transaction.Setup(handler.conn)
 
-	userRepo.Repo.Setup(handler.conn)
+	gormUserRepo.Repo.Setup(handler.conn)
 }
 
 func (handler *Module) Finish() {
-	handler.db.Close()
+	_ = handler.db.Close()
 }

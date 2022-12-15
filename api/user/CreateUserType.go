@@ -1,10 +1,6 @@
 package userApi
 
-type CreateUserBody struct {
-	Email string `form:"Email" json:"email" binding:"required"`
-	Name  string `form:"Name" json:"name" binding:"required"`
-}
-
 type CreateUserParams struct {
-	CreateUserBody
+	Email string `form:"Email" json:"email" validate:"required,email"`
+	Name  string `form:"Name" json:"name" validate:"required,gte=4,lte=40"`
 }

@@ -2,9 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	userApi "go-boilerplate/api/user"
-	userUseCase "go-boilerplate/app/user"
-	"go-boilerplate/infrastructure/modules/gin/middlewares"
+	"go-boilerplate/infrastructure/modules/gin/actions/user"
 )
 
 func userRoutes(r *gin.RouterGroup) {
@@ -12,8 +10,8 @@ func userRoutes(r *gin.RouterGroup) {
 
 	//group.Use(middlewares.AuthHandler("any"))
 	{
-		group.POST("", middlewares.CallUseCase[any, userApi.CreateUserBody](userUseCase.CreateUserUseCase))
-		group.GET("/:id", middlewares.CallUseCase[userApi.GetUserUri, any](userUseCase.GetUserUseCase))
-		group.PUT("/:id", middlewares.CallUseCase[userApi.UpdateUserUri, userApi.UpdateUserBody](userUseCase.UpdateUserUseCase))
+		group.POST("", userGinActions.CreateUserAction)
+		group.GET("/:id/:type", userGinActions.GetUserAction)
+		group.PUT("/:id", userGinActions.UpdateUserAction)
 	}
 }

@@ -11,4 +11,8 @@ type Variables struct {
 		User   string
 		Pass   string
 	}
+	Mongo struct {
+		Uri   string
+		DBName   string
+	}
 }

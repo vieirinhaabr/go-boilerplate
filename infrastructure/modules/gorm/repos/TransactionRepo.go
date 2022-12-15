@@ -1,4 +1,4 @@
-package repo
+package gormRepo
 
 import (
 	"gorm.io/gorm"
@@ -16,6 +16,6 @@ func (t *transaction) Setup(conn *gorm.DB) {
 	}
 }
 
-func (t transaction) OpenTransaction() *gorm.DB {
+func (t *transaction) OpenTransaction() *gorm.DB {
 	return t.conn.Begin()
 }
