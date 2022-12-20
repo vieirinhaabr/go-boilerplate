@@ -12,10 +12,6 @@ type repo struct {
 var Repo repo
 
 func (r repo) Setup(conn *gorm.DB) {
-	err := conn.AutoMigrate(&Schema{})
-	if err != nil {
-		panic(err)
-	}
 	Repo = repo{
 		model: conn,
 	}

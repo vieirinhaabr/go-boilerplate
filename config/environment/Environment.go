@@ -28,6 +28,7 @@ func SetupVars() {
 	Vars.Gorm.DBName = loadVar("GORM_DBNAME", true)
 	Vars.Gorm.User = loadVar("GORM_USER", true)
 	Vars.Gorm.Pass = loadVar("GORM_PASS", true)
+	Vars.Gorm.MigrationsDir = loadVar("GORM_MIGRATIONS_DIR", true)
 
 	Vars.Mongo.Uri = loadVar("MONGO_URI", true)
 	Vars.Mongo.DBName = loadVar("MONGO_DB", true)
