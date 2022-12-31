@@ -1,0 +1,26 @@
+syntax = "proto3";
+package user;
+option go_package = "./proto";
+
+message CreateUserRequest {
+  string email = 1;
+  string name = 2;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}

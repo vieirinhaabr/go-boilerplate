@@ -42,6 +42,17 @@ go run main.go
 ### Prerequisites
 
 Go environment must be setup.
+
+For protos you should install protobuf on your system and execute the following command to install the plugin for golang protos generator.
+```
+go install google.golang.org/protobuf/cmd/protoc-gen-go@1.5.2
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@1.2.0
+```
+
+To build the protos use the command below
+```
+protoc infrastructure/modules/grpc/protos/raw/*.proto --go_out=infrastructure/modules/grpc/protos/build --go_opt=paths=source_relative --go-grpc_out=infrastructure/modules/grpc/protos/build --go-grpc_opt=paths=source_relative --proto_path=infrastructure/modules/grpc/protos/raw
+```
    
 ## Built With
 

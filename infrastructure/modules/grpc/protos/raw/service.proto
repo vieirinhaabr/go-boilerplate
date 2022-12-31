@@ -1,0 +1,11 @@
+syntax = "proto3";
+package service;
+option go_package = "./proto";
+
+import "user.proto";
+
+service User {
+  rpc CreateUserSQL(user.CreateUserRequest) returns (user.User) {}
+  rpc UpdateUserSQL(user.UpdateUserRequest) returns (user.User) {}
+  rpc GetUserSQL(user.GetUserRequest) returns (user.User) {}
+}
