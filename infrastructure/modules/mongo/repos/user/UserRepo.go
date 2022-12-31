@@ -4,14 +4,14 @@ import (
 	"errors"
 	"go-boilerplate/domain/user/entities"
 	errorsType "go-boilerplate/infrastructure/global/errors"
-	"go-boilerplate/infrastructure/modules/mongo/utils"
+	"go-boilerplate/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type repo struct {
-	database *mongo.Database
+	database   *mongo.Database
 	collection *mongo.Collection
 }
 
@@ -38,7 +38,7 @@ func (r repo) Update(user *userEntity.User) error {
 	schema := fromEntity(user)
 	objId, _ := primitive.ObjectIDFromHex(user.ID)
 	filter := bson.D{{"_id", objId}}
-	update := bson.D{{"$set", schema }}
+	update := bson.D{{"$set", schema}}
 	_, err := r.collection.UpdateOne(ctx, filter, update)
 
 	return err

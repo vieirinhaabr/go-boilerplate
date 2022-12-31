@@ -5,7 +5,7 @@ import (
 	"go-boilerplate/config/environment"
 	_ "go-boilerplate/infrastructure/modules/mongo/migrations"
 	"go-boilerplate/infrastructure/modules/mongo/repos/user"
-	"go-boilerplate/infrastructure/modules/mongo/utils"
+	"go-boilerplate/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

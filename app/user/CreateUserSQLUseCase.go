@@ -21,8 +21,8 @@ func CreateUserSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseResponse
 		}
 	}
 
-	userPostgres := userEntity.Create(params.Email, params.Name)
-	err = gormUserRepo.Repo.Create(&userPostgres)
+	user := userEntity.Create(params.Email, params.Name)
+	err = gormUserRepo.Repo.Create(&user)
 	if err != nil {
 		code := errors.Internal
 		msg := err.Error()
@@ -34,7 +34,7 @@ func CreateUserSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseResponse
 	}
 
 	return &api.UseCaseResponse[userEntity.User]{
-		Response:  &userPostgres,
+		Response:  &user,
 		ErrorCode: nil,
 		ErrorMsg:  nil,
 	}

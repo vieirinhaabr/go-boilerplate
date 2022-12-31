@@ -1,4 +1,4 @@
-package utils
+package mongoUtils
 
 import (
 	"encoding/json"

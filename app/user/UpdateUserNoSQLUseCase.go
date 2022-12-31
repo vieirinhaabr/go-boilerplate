@@ -24,7 +24,7 @@ func UpdateUserNoSQLUseCase(params *userApi.UpdateUserParams) *api.UseCaseRespon
 	user, err := mongoUserRepo.Repo.GetById(params.ID)
 	if err != nil {
 		code := errors.Internal
-		if err.Error() == string(errors.NoItemsFound){
+		if err.Error() == string(errors.NoItemsFound) {
 			code = errors.ItemRequestedNotFound
 		}
 

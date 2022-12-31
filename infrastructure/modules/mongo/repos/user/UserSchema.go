@@ -16,19 +16,19 @@ type IRepo interface {
 }
 
 func fromEntity(user *userEntity.User) *Schema {
-	return utils.ConvertSchema[Schema](user)
+	return mongoUtils.ConvertSchema[Schema](user)
 }
 
 func toEntity(schema *Schema) *userEntity.User {
-	return utils.ConvertSchema[userEntity.User](schema)
+	return mongoUtils.ConvertSchema[userEntity.User](schema)
 }
 
 const CollectionName = "users"
 
 type Schema struct {
-	ID  		primitive.ObjectID 	`bson:"_id,omitempty" json:"id,omitempty"`
-	Email     	string    			`bson:"email" json:"email"`
-	Name      	string    			`bson:"name" json:"name"`
-	CreatedAt 	time.Time 			`bson:"created_at" json:"created_at"`
-	UpdatedAt 	time.Time 			`bson:"updated_at" json:"updated_at"`
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Email     string             `bson:"email" json:"email"`
+	Name      string             `bson:"name" json:"name"`
+	CreatedAt time.Time          `bson:"created_at" json:"created_at"`
+	UpdatedAt time.Time          `bson:"updated_at" json:"updated_at"`
 }

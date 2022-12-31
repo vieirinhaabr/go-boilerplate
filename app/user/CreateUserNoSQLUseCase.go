@@ -21,8 +21,8 @@ func CreateUserNoSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseRespon
 		}
 	}
 
-	userMongo := userEntity.Create(params.Email, params.Name)
-	err = mongoUserRepo.Repo.Create(&userMongo)
+	user := userEntity.Create(params.Email, params.Name)
+	err = mongoUserRepo.Repo.Create(&user)
 	if err != nil {
 		code := errors.Internal
 		msg := err.Error()
@@ -34,7 +34,7 @@ func CreateUserNoSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseRespon
 	}
 
 	return &api.UseCaseResponse[userEntity.User]{
-		Response:  &userMongo,
+		Response:  &user,
 		ErrorCode: nil,
 		ErrorMsg:  nil,
 	}

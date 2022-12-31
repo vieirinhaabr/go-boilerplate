@@ -4,6 +4,7 @@ type Variables struct {
 	Gin   Gin
 	Gorm  Gorm
 	Mongo Mongo
+	Redis Redis
 }
 
 type Gin struct {
@@ -22,4 +23,9 @@ type Gorm struct {
 type Mongo struct {
 	Uri    string
 	DBName string
+}
+
+type Redis struct {
+	Host string
+	Pass string
 }

@@ -27,6 +27,15 @@ services:
       - "27017:27017"
     networks:
       - app-network
+  redis:
+    image: bitnami/redis:7.0.7
+    container_name: go-rest-boilerplate-redis
+    ports:
+      - "6379:6379"
+    labels:
+      - traefik.enable=false
+    environment:
+      - ALLOW_EMPTY_PASSWORD=true
 networks:
   app-network:
     driver: bridge

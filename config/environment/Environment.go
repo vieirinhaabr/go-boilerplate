@@ -32,4 +32,7 @@ func SetupVars() {
 
 	Vars.Mongo.Uri = loadVar("MONGO_URI", true)
 	Vars.Mongo.DBName = loadVar("MONGO_DB", true)
+
+	Vars.Redis.Host = loadVar("REDIS_HOST", true)
+	Vars.Redis.Pass = loadVar("REDIS_PASS", true)
 }

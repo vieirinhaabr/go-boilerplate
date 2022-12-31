@@ -6,7 +6,9 @@ import (
 )
 
 func userRoutes(r *gin.RouterGroup) {
-	sqlGroup := r.Group("/user/sql")
+	userGroup := r.Group("/user")
+
+	sqlGroup := userGroup.Group("/sql")
 
 	//group.Use(middlewares.AuthHandler("any"))
 	{
@@ -15,12 +17,20 @@ func userRoutes(r *gin.RouterGroup) {
 		sqlGroup.PUT("/:id", userGinActions.UpdateUserSQLAction)
 	}
 
-	noSqlGroup := r.Group("/user/no-sql")
+	noSqlGroup := userGroup.Group("/no-sql")
 
 	//group.Use(middlewares.AuthHandler("any"))
 	{
 		noSqlGroup.POST("", userGinActions.CreateUserNoSQLAction)
 		noSqlGroup.GET("/:id", userGinActions.GetUserNoSQLAction)
 		noSqlGroup.PUT("/:id", userGinActions.UpdateUserNoSQLAction)
+	}
+
+	redisGroup := userGroup.Group("/redis")
+
+	//group.Use(middlewares.AuthHandler("any"))
+	{
+		redisGroup.POST("", userGinActions.CreateUserRedisAction)
+		redisGroup.GET("/:name", userGinActions.GetUserRedisAction)
 	}
 }

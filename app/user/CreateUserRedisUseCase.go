@@ -6,11 +6,11 @@ import (
 	userValidator "go-boilerplate/app/user/validators"
 	"go-boilerplate/domain/user/entities"
 	"go-boilerplate/infrastructure/global/errors"
-	mongoUserRepo "go-boilerplate/infrastructure/modules/mongo/repos/user"
+	redisUserRepo "go-boilerplate/infrastructure/modules/redis/repos/user"
 )
 
-func GetUserNoSQLUseCase(params *userApi.GetUserParams) *api.UseCaseResponse[userEntity.User] {
-	err := userValidator.GetUserValidator(params)
+func CreateUserRedisUseCase(params *userApi.CreateUserParams) *api.UseCaseResponse[userEntity.User] {
+	err := userValidator.CreateUserValidator(params)
 	if err != nil {
 		code := errors.Validation
 		msg := err.Error()
@@ -21,13 +21,10 @@ func GetUserNoSQLUseCase(params *userApi.GetUserParams) *api.UseCaseResponse[use
 		}
 	}
 
-	user, err := mongoUserRepo.Repo.GetById(params.ID)
+	user := userEntity.Create(params.Email, params.Name)
+	err = redisUserRepo.Repo.Set(&user)
 	if err != nil {
 		code := errors.Internal
-		if err.Error() == string(errors.NoItemsFound) {
-			code = errors.ItemRequestedNotFound
-		}
-
 		msg := err.Error()
 		return &api.UseCaseResponse[userEntity.User]{
 			Response:  nil,
