@@ -8,6 +8,7 @@ import (
 	"go-boilerplate/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 const MigrationCollectionName = "migrations"
@@ -42,12 +43,16 @@ func (handler *Module) Configure() {
 	*handler = Module{client, database}
 }
 
-func (handler *Module) Start() {
+func (handler *Module) Start() error {
 	mongoUserRepo.Repo.Setup(handler.database)
+
+	return nil
 }
 
 func (handler *Module) Finish() {
 	ctx, _ := utils.CreateContext()
 
 	_ = handler.client.Disconnect(ctx)
+
+	log.Printf("[MONGO] Finished\n")
 }

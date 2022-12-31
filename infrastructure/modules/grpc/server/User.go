@@ -14,9 +14,8 @@ type userServer struct {
 
 var UserServer userServer
 
-func (userSrv userServer) ConfigureServer(grpcSrv *grpc.Server) {
-	srv := userServer{}
-	proto.RegisterUserServer(grpcSrv, &srv)
+func (srv userServer) ConfigureServer(grpc *grpc.Server) {
+	proto.RegisterUserServer(grpc, &srv)
 }
 
 func (userServer) CreateUserSQL(context.Context, *proto.CreateUserRequest) (*proto.User, error) {

@@ -2,12 +2,17 @@ package environment
 
 type Variables struct {
 	Gin   Gin
+	Grpc  Grpc
 	Gorm  Gorm
 	Mongo Mongo
 	Redis Redis
 }
 
 type Gin struct {
+	Port string
+}
+
+type Grpc struct {
 	Port string
 }
 

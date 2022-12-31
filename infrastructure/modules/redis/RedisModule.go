@@ -5,6 +5,7 @@ import (
 	"go-boilerplate/config/environment"
 	redisUserRepo "go-boilerplate/infrastructure/modules/redis/repos/user"
 	"go-boilerplate/utils"
+	"log"
 )
 
 type Module struct {
@@ -46,11 +47,15 @@ func (handler *Module) Configure() {
 	}{user: userClient, test: testClient}}
 }
 
-func (handler *Module) Start() {
+func (handler *Module) Start() error {
 	redisUserRepo.Repo.Setup(handler.clients.user)
+
+	return nil
 }
 
 func (handler *Module) Finish() {
 	_ = handler.clients.user.Close()
 	_ = handler.clients.test.Close()
+
+	log.Printf("[REDIS] Finished\n")
 }

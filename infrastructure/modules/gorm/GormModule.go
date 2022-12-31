@@ -10,6 +10,7 @@ import (
 	"go-boilerplate/infrastructure/modules/gorm/repos/user"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
 )
 
 type Module struct {
@@ -77,12 +78,15 @@ func (handler *Module) Configure() {
 	*handler = Module{conn, db}
 }
 
-func (handler *Module) Start() {
+func (handler *Module) Start() error {
 	gormRepo.Transaction.Setup(handler.conn)
-
 	gormUserRepo.Repo.Setup(handler.conn)
+
+	return nil
 }
 
 func (handler *Module) Finish() {
 	_ = handler.db.Close()
+
+	log.Printf("[GORM] Finished\n")
 }

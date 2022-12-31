@@ -5,30 +5,50 @@ import (
 	"go-boilerplate/infrastructure/global/types"
 	"go-boilerplate/infrastructure/modules/gin"
 	"go-boilerplate/infrastructure/modules/gorm"
-	mongoModule "go-boilerplate/infrastructure/modules/mongo"
-	redisModule "go-boilerplate/infrastructure/modules/redis"
+	"go-boilerplate/infrastructure/modules/grpc"
+	"go-boilerplate/infrastructure/modules/mongo"
+	"go-boilerplate/infrastructure/modules/redis"
+	"golang.org/x/sync/errgroup"
 )
+
+var (
+	toStart  errgroup.Group
+	toFinish []func()
+)
+
+func addModule(module types.Module) types.Module {
+	module.Configure()
+
+	toStart.Go(func() error {
+		return module.Start()
+	})
+
+	toFinish = append(toFinish, func() {
+		module.Finish()
+	})
+
+	return module
+}
 
 func main() {
 	environment.SetupVars()
 
-	var redis types.Module = redisModule.NewRedisModule()
-	var mongo types.Module = mongoModule.NewMongoModule()
-	var gorm types.Module = gormModule.NewGormModule()
-	var gin types.Module = ginModule.NewGinModule()
+	// Configure
+	addModule(redisModule.NewRedisModule())
+	addModule(mongoModule.NewMongoModule())
+	addModule(gormModule.NewGormModule())
+	addModule(grpcModule.NewGrpcModule())
+	addModule(ginModule.NewGinModule())
 
-	redis.Configure()
-	mongo.Configure()
-	gorm.Configure()
-	gin.Configure()
+	// Start sync
+	if err := toStart.Wait(); err != nil {
+		panic(err)
+	}
 
-	redis.Start()
-	mongo.Start()
-	gorm.Start()
-	gin.Start()
-
-	defer redis.Finish()
-	defer mongo.Finish()
-	defer gorm.Finish()
-	defer gin.Finish()
+	// Finish
+	defer func() {
+		for _, finish := range toFinish {
+			finish()
+		}
+	}()
 }

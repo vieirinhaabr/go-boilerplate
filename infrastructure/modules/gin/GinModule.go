@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-boilerplate/config/environment"
 	"go-boilerplate/infrastructure/modules/gin/routes"
+	"log"
 )
 
 type Module struct {
@@ -20,11 +21,10 @@ func (handler *Module) Configure() {
 	*handler = Module{engine}
 }
 
-func (handler *Module) Start() {
-	err := handler.engine.Run(":" + environment.Vars.Gin.Port)
-	if err != nil {
-		panic(err)
-	}
+func (handler *Module) Start() error {
+	return handler.engine.Run(":" + environment.Vars.Gin.Port)
 }
 
-func (handler *Module) Finish() {}
+func (handler *Module) Finish() {
+	log.Printf("[GIN] Finished\n")
+}

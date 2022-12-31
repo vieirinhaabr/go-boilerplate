@@ -23,6 +23,8 @@ func SetupVars() {
 
 	Vars.Gin.Port = loadVar("GIN_PORT", true)
 
+	Vars.Grpc.Port = loadVar("GRPC_PORT", true)
+
 	Vars.Gorm.Host = loadVar("GORM_HOST", true)
 	Vars.Gorm.Port = loadVar("GORM_PORT", true)
 	Vars.Gorm.DBName = loadVar("GORM_DBNAME", true)
