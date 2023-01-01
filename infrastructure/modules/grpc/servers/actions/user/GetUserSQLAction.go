@@ -7,5 +7,5 @@ import (
 )
 
 func GetUserSQLAction(r *proto.GetUserRequest) (*proto.User, error) {
-	return grpcUtils.CallUseCaseAsProto(userUseCase.GetUserSQLUseCase, r, new(proto.User))
+	return grpcUtils.CallUseCaseAsProto("GetUserSQLAction", userUseCase.GetUserSQLUseCase, r, new(proto.User))
 }

@@ -3,8 +3,8 @@ package grpcModule
 import (
 	"go-boilerplate/config/environment"
 	"go-boilerplate/infrastructure/modules/grpc/servers"
+	"go-boilerplate/utils"
 	"google.golang.org/grpc"
-	"log"
 	"net"
 )
 
@@ -24,7 +24,7 @@ func (handler *Module) Configure() {
 	// Server
 	server := grpc.NewServer()
 	grpcServer.UserServer.ConfigureServer(server)
-	
+
 	lis, err := net.Listen("tcp", ":"+config.Port)
 	if err != nil {
 		panic("[GRPC] Listen: " + err.Error())
@@ -37,7 +37,7 @@ func (handler *Module) Start() error {
 	var config = environment.Vars.Grpc
 
 	// Server
-	log.Printf("[GRPC] listening on %s\n", config.Port)
+	utils.Log.Info("[GRPC] Listening on %s\n", config.Port)
 	return handler.server.Serve(handler.listener)
 }
 
@@ -45,5 +45,5 @@ func (handler *Module) Finish() {
 	// Server
 	handler.server.Stop()
 
-	log.Printf("[GRPC] Finished\n")
+	utils.Log.Error("[GRPC] Finished\n")
 }
