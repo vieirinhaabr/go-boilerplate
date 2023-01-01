@@ -62,7 +62,7 @@ func (c *userClient) GetUserSQL(ctx context.Context, in *GetUserRequest, opts ..
 	return out, nil
 }
 
-// UserServer is the server API for User service.
+// UserServer is the servers API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
