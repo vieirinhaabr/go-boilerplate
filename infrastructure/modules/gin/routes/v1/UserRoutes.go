@@ -33,4 +33,13 @@ func userRoutes(r *gin.RouterGroup) {
 		redisGroup.POST("", userGinActions.CreateUserRedisAction)
 		redisGroup.GET("/:name", userGinActions.GetUserRedisAction)
 	}
+
+	grpcGroup := userGroup.Group("/grpc")
+
+	//group.Use(middlewares.AuthHandler("any"))
+	{
+		grpcGroup.POST("", userGinActions.CreateUserGrpcAction)
+		grpcGroup.GET("/:id", userGinActions.GetUserGrpcAction)
+		grpcGroup.PUT("/:id", userGinActions.UpdateUserGrpcAction)
+	}
 }

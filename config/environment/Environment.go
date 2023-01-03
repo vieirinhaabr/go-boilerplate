@@ -37,4 +37,6 @@ func SetupVars() {
 
 	Vars.Redis.Host = loadVar("REDIS_HOST", true)
 	Vars.Redis.Pass = loadVar("REDIS_PASS", true)
+
+	Vars.Services.BoilerplateHost = loadVar("BOILERPLATE_HOST", true)
 }

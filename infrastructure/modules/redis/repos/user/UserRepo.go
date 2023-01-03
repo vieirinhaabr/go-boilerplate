@@ -26,14 +26,17 @@ func (r repo) Set(user *userEntity.User) error {
 		return err
 	}
 
-	ctx, _ := utils.CreateContext()
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
+
 	err = r.client.Set(ctx, user.Name, string(jsonUser), redisUtils.RedisDefaultTTL).Err()
 
 	return err
 }
 
 func (r repo) Get(name string) (*userEntity.User, error) {
-	ctx, _ := utils.CreateContext()
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
 
 	data, err := r.client.Get(ctx, name).Result()
 	if err != nil && err != redis.Nil {

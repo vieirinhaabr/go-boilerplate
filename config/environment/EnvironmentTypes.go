@@ -1,11 +1,12 @@
 package environment
 
 type Variables struct {
-	Gin   Gin
-	Grpc  Grpc
-	Gorm  Gorm
-	Mongo Mongo
-	Redis Redis
+	Gin      Gin
+	Grpc     Grpc
+	Gorm     Gorm
+	Mongo    Mongo
+	Redis    Redis
+	Services Services
 }
 
 type Gin struct {
@@ -33,4 +34,8 @@ type Mongo struct {
 type Redis struct {
 	Host string
 	Pass string
+}
+
+type Services struct {
+	BoilerplateHost string
 }

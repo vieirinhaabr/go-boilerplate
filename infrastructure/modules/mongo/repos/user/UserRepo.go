@@ -23,7 +23,8 @@ func (r repo) Setup(db *mongo.Database) {
 }
 
 func (r repo) Create(user *userEntity.User) error {
-	ctx, _ := utils.CreateContext()
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
 
 	schema := fromEntity(user)
 	result, err := r.collection.InsertOne(ctx, schema)
@@ -33,7 +34,8 @@ func (r repo) Create(user *userEntity.User) error {
 }
 
 func (r repo) Update(user *userEntity.User) error {
-	ctx, _ := utils.CreateContext()
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
 
 	schema := fromEntity(user)
 	objId, _ := primitive.ObjectIDFromHex(user.ID)
@@ -45,7 +47,8 @@ func (r repo) Update(user *userEntity.User) error {
 }
 
 func (r repo) GetById(id string) (userEntity.User, error) {
-	ctx, _ := utils.CreateContext()
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
 
 	var schema = new(Schema)
 	objId, _ := primitive.ObjectIDFromHex(id)

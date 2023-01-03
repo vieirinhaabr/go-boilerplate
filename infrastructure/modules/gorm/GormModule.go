@@ -8,9 +8,9 @@ import (
 	"go-boilerplate/config/environment"
 	"go-boilerplate/infrastructure/modules/gorm/repos"
 	"go-boilerplate/infrastructure/modules/gorm/repos/user"
+	"go-boilerplate/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 )
 
 type Module struct {
@@ -53,6 +53,8 @@ func runMigrations(config environment.Gorm, dsn string) {
 }
 
 func (handler *Module) Configure() {
+	utils.Log.Warn("[GORM] ᛃ Configuring\n")
+
 	var config = environment.Vars.Gorm
 
 	var dsn = "host=" + config.Host +
@@ -79,6 +81,8 @@ func (handler *Module) Configure() {
 }
 
 func (handler *Module) Start() error {
+	utils.Log.Warn("[GORM] ▶ Starting\n")
+
 	gormRepo.Transaction.Setup(handler.conn)
 	gormUserRepo.Repo.Setup(handler.conn)
 
@@ -86,7 +90,7 @@ func (handler *Module) Start() error {
 }
 
 func (handler *Module) Finish() {
-	_ = handler.db.Close()
+	utils.Log.Warn("[GORM] ■ Finishing\n")
 
-	log.Printf("[GORM] Finished\n")
+	_ = handler.db.Close()
 }

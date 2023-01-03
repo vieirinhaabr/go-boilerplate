@@ -3,12 +3,10 @@ package gormUserRepo
 import (
 	"github.com/gofrs/uuid"
 	"go-boilerplate/domain/user/entities"
-	"gorm.io/gorm"
 	"time"
 )
 
 type IRepo interface {
-	Setup(conn *gorm.DB)
 	Create(*userEntity.User) error
 	Update(*userEntity.User) error
 	GetById(id string) (userEntity.User, error)

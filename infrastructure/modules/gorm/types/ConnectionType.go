@@ -1,7 +1,7 @@
-package types
+package gormTypes
 
 import "github.com/jinzhu/gorm"
 
 type Connection interface {
-	Setup(*gorm.DB)
+	Setup(conn *gorm.DB)
 }

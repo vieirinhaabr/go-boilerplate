@@ -1,17 +1,16 @@
 package grpcUtils
 
 import (
+	"context"
 	"encoding/json"
-	"go-boilerplate/api"
 	"go-boilerplate/infrastructure/global/errors"
+	"go-boilerplate/infrastructure/global/types"
+	grpcTypes "go-boilerplate/infrastructure/modules/grpc/types"
 	"go-boilerplate/utils"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"google.golang.org/grpc"
 )
 
-type UseCase[req any, res any] func(params *req) *api.UseCaseResponse[res]
-
-func CallUseCaseAsProto[req any, res any, input any, output any](id string, useCase UseCase[req, res], i *input, o *output) (*output, error) {
+func CallUseCaseAsProto[req any, res any, input any, output any](id string, useCase types.UseCase[req, res], i *input, o *output) (*output, error) {
 	utils.Log.Info("[GRPC] %s called\n", id)
 
 	var r = new(req)
@@ -20,21 +19,7 @@ func CallUseCaseAsProto[req any, res any, input any, output any](id string, useC
 
 	result := useCase(r)
 	if result.ErrorCode != nil {
-		utils.Log.Error("[GRPC] %s got error\n", id)
-
-		switch *result.ErrorCode {
-		case errors.Internal:
-			return nil, status.Errorf(codes.Internal, *result.ErrorMsg)
-
-		case errors.Validation:
-			return nil, status.Errorf(codes.InvalidArgument, *result.ErrorMsg)
-
-		case errors.ItemRequestedNotFound:
-			return nil, status.Errorf(codes.NotFound, *result.ErrorMsg)
-
-		default:
-			return nil, status.Errorf(codes.Internal, "Cannot handle the error")
-		}
+		return nil, ResolveServerError(id, result)
 	}
 
 	ojs, _ := json.Marshal(*result.Response)
@@ -42,4 +27,40 @@ func CallUseCaseAsProto[req any, res any, input any, output any](id string, useC
 
 	utils.Log.Success("[GRPC] %s executed\n", id)
 	return o, nil
+}
+
+func CallGrpcServer[rq any, r any, rs any, p any](params *p, call func(ctx context.Context, in *rq, opts ...grpc.CallOption) (*rs, error)) grpcTypes.ClientResponse[r] {
+	input := new(rq)
+	err := utils.TranslateStruct(params, input)
+	if err != nil {
+		return grpcTypes.ClientResponse[r]{
+			Error: &grpcTypes.ClientError{
+				Code: errors.Internal,
+				Msg:  "error when mounting request proto",
+			},
+		}
+	}
+
+	ctx, cancel := utils.CreateContext()
+	defer cancel()
+	resp, err := call(ctx, input)
+	if err != nil {
+		return ResolveClientError[r](err)
+	}
+
+	output := new(r)
+	err = utils.TranslateStruct(resp, output)
+	if err != nil {
+		return grpcTypes.ClientResponse[r]{
+			Error: &grpcTypes.ClientError{
+				Code: errors.Internal,
+				Msg:  "error when mounting request proto",
+			},
+		}
+	}
+
+	return grpcTypes.ClientResponse[r]{
+		Response: output,
+		Error:    nil,
+	}
 }

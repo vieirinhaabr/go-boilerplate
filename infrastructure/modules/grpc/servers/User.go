@@ -18,13 +18,13 @@ func (srv userServer) ConfigureServer(grpc *grpc.Server) {
 }
 
 func (userServer) CreateUserSQL(_ context.Context, r *proto.CreateUserRequest) (*proto.User, error) {
-	return userGrpcActions.CreateUserSQLAction(r)
+	return userGrpcServerActions.CreateUserSQLAction(r)
 }
 
 func (userServer) UpdateUserSQL(_ context.Context, r *proto.UpdateUserRequest) (*proto.User, error) {
-	return userGrpcActions.UpdateUserSQLAction(r)
+	return userGrpcServerActions.UpdateUserSQLAction(r)
 }
 
 func (userServer) GetUserSQL(_ context.Context, r *proto.GetUserRequest) (*proto.User, error) {
-	return userGrpcActions.GetUserSQLAction(r)
+	return userGrpcServerActions.GetUserSQLAction(r)
 }

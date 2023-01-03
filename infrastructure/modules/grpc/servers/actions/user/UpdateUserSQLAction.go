@@ -1,4 +1,4 @@
-package userGrpcActions
+package userGrpcServerActions
 
 import (
 	"go-boilerplate/app/user"

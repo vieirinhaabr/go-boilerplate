@@ -1,20 +1,20 @@
 package userUseCase
 
 import (
-	"go-boilerplate/api"
 	userApi "go-boilerplate/api/user"
 	userValidator "go-boilerplate/app/user/validators"
 	"go-boilerplate/domain/user/entities"
 	"go-boilerplate/infrastructure/global/errors"
+	"go-boilerplate/infrastructure/global/types"
 	mongoUserRepo "go-boilerplate/infrastructure/modules/mongo/repos/user"
 )
 
-func CreateUserNoSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseResponse[userEntity.User] {
+func CreateUserNoSQLUseCase(params *userApi.CreateUserParams) *types.UseCaseResponse[userEntity.User] {
 	err := userValidator.CreateUserValidator(params)
 	if err != nil {
 		code := errors.Validation
 		msg := err.Error()
-		return &api.UseCaseResponse[userEntity.User]{
+		return &types.UseCaseResponse[userEntity.User]{
 			Response:  nil,
 			ErrorCode: &code,
 			ErrorMsg:  &msg,
@@ -26,14 +26,14 @@ func CreateUserNoSQLUseCase(params *userApi.CreateUserParams) *api.UseCaseRespon
 	if err != nil {
 		code := errors.Internal
 		msg := err.Error()
-		return &api.UseCaseResponse[userEntity.User]{
+		return &types.UseCaseResponse[userEntity.User]{
 			Response:  nil,
 			ErrorCode: &code,
 			ErrorMsg:  &msg,
 		}
 	}
 
-	return &api.UseCaseResponse[userEntity.User]{
+	return &types.UseCaseResponse[userEntity.User]{
 		Response:  &user,
 		ErrorCode: nil,
 		ErrorMsg:  nil,
